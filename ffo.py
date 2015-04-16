@@ -12,7 +12,7 @@ import subprocess
 import zipfile
 import binascii
 
-import magic
+import traceback
 
 # Variables
 CONFIGFILE = 'ffo.txt'
@@ -32,21 +32,31 @@ Magic                         - ASCII      - Ident - Extension          |  Magic
 52 61 72 21 1A 07 00          - Rar!...    - RAR   - .rar               |  47 49 46 38 37 61 - GIF87a - GIF   - .gif
 52 61 72 21 1A 07 01 00       - Rar!....   - RAR   - .rar               |  47 49 46 38 39 61 - GIF89a - GIF   - .gif
 50 4B 03 04 0A 00 02 00       - PK......   - EPUB  - .epub              |  25 50 44 46       - %PDF   - PDF   - .pdf
-50 4B 03 04 14 00 06 00       - PK......   -       - .docx, pptx, xlsx  |  D0 CF 11 E0       - ....   - OLE   - .doc, .xls, .ppt
+50 4B 03 04 14 00 06 00       - PK......   - OLE   - .docx, pptx, xlsx  |  D0 CF 11 E0       - ....   - OLE   - .doc, .xls, .ppt
 50 4B 03 04 14 00 08 00 08 00 - PK........ - JAR   - .jar               |  49 44 33          - ID3    - MP3   - .mp3
 50 4B 03 04                   - PK..       - ZIP   - .zip               |  4D 5A             - MZ     - EXE   - .exe
-89 50 4E 47 0D 0A 1A 0A       - ‰PNG....   - PNG   - .png
+89 50 4E 47 0D 0A 1A 0A       - .PNG....   - PNG   - .png
 '''
 
-magics={"52 61 72 21 1A 07 00":"RAR",          "52 61 72 21 1A 07 01 00":"RAR", "50 4B 03 04 0A 00 02 00":"EPUB", "50 4B 03 04 14 00 06 00":"*****",
+magics={"52 61 72 21 1A 07 00":"RAR",          "52 61 72 21 1A 07 01 00":"RAR", "50 4B 03 04 0A 00 02 00":"EPUB", "50 4B 03 04 14 00 06 00":"OLE",
         "50 4B 03 04 14 00 08 00 08 00":"JAR", "50 4B 03 04":"ZIP",             "89 50 4E 47 0D 0A 1A 0A":"PNG",  "47 49 46 38 37 61":"GIF",
         "47 49 46 38 39 61":"GIF",
         "25 50 44 46":"PDF", "D0 CF 11 E0":"OLE", "49 44 33":"MP3", "4D 5A":"EXE"}
 
+# python2 and 3 compatible functions
+def toString(b):
+  return str(b) if sys.version_info < (3, 0) else str(b,'utf-8')
+
+def readBinary(f):
+  with open(f, "rb") as fIn:
+    binary=fIn.read()
+  return binary
+
+
 # analyze ascii version of the stream to find the magic
 def getMagic(f):
-  bytes = open(f, "rb").read() if type(f) == str else f
-  hexFile=str((binascii.hexlify(bytes).upper())[:16],'utf-8')
+  bytes = readBinary(f) if type(f) == str else f
+  hexFile=toString((binascii.hexlify(bytes).upper())[:16])
   for x in list(magics.keys()):
     if hexFile.startswith(x.replace(" ","")): return x
   return None
@@ -61,6 +71,7 @@ def getCommandFor(fileType, config=None):
   except IOError:
     sys.exit("Couldn't open file")
   except Exception as e:
+    raise(e)
     sys.exit(e)
   for x in rules:
     if fileType==x.split(':')[0]:
@@ -75,15 +86,16 @@ def analyzeZIP(f):
   fzip = zipfile.ZipFile(f, 'r')
   try:
     if len(fzip.namelist())==1:
-      f=fzip.read(fzip.namelist()[0])
+      f=bytearray(fzip.read(fzip.namelist()[0]))
   except RuntimeError:
     try:
       password = args.p if args.p else ZIPPASSWORD
       password = password.encode("utf-8")
-      f=fzip.read(fzip.namelist()[0], password)
+      f=bytearray(fzip.read(fzip.namelist()[0], password))
     except RuntimeError:
       print("Password Protected Zip")
   except Exception as e:
+    raise(e)
     sys.exit(e)
   fzip.close()
   return f
@@ -100,9 +112,11 @@ def printAnalysis(f):
 def analyze(f,config=None):
   try:
     mag=getMagic(f)
+    print(mag)
     if not mag:
       printAnalysis(f)
     if magics[mag]=="ZIP":
+      #print(analyzeZIP(f))
       mag=getMagic(analyzeZIP(f))
       if not mag:
         printAnalysis(analyzeZIP(f))
@@ -117,6 +131,8 @@ def analyze(f,config=None):
   except IOError:
     sys.exit("Couldn't open file")
   except Exception as e:
+    print(traceback.format_exc())
+    raise(e)
     sys.exit(e)
 
 if __name__ == '__main__':
