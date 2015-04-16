@@ -1,2 +1,2 @@
 ZIP:echo "zip"
-PDF:echo "pdf"
+PDF:echo "%naMe% is a pdf; the path is: %path%"

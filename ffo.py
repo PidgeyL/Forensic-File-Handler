@@ -6,6 +6,8 @@
 #
 # Copyright (c) 2015	 	Pieter-Jan Moreels - pieterjan.moreels@gmail.com
 
+import re
+import os
 import sys
 import argparse
 import subprocess
@@ -77,6 +79,11 @@ def getCommandFor(fileType, config=None):
     if fileType==x.split(':')[0]:
       command=':'.join(x.split(':')[1:])
       break
+  # replace variables
+  name=re.compile(re.escape('%name%'), re.IGNORECASE)
+  path=re.compile(re.escape('%path%'), re.IGNORECASE)
+  command=name.sub(args.file, command)
+  command=path.sub(os.path.abspath(args.file), command)
   return command
 
 # analyze the zip file and return the first file if single file
