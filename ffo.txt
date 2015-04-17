@@ -1,2 +1,23 @@
+7ZIP
+BMP
+CLASS
+EPUB
+EXE
+FLAC
+FLV
+GIF
+IMG
+ISO
+JAR
+MOV
+MP3
+MP4
+OLE
+PDF:echo "%naMe% is analyzed; the path is: %path%"; the ident is %ident%
+PNG
+RAR
+RPM
+SWF
+SYS
+WEBM
 ZIP:echo "zip"
-PDF:echo "%naMe% is a pdf; the path is: %path%"
