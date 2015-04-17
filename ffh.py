@@ -17,7 +17,7 @@ import binascii
 import traceback
 
 # Variables
-CONFIGFILE = 'ffo.txt'
+CONFIGFILE = 'ffh.txt'
 ZIPPASSWORD = 'infected'
 
 # Parsing arguments
