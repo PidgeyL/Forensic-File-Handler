@@ -98,10 +98,10 @@ def getCommandFor(fileType, config=None):
       command=':'.join(x.split(':')[1:])
       break
   # replace variables
-  name=re.compile(re.escape('%name%'), re.IGNORECASE)
-  path=re.compile(re.escape('%path%'), re.IGNORECASE)
-  command=name.sub(args.file, command)
-  command=path.sub(os.path.abspath(args.file), command)
+  command=re.compile(re.escape('%name%'), re.IGNORECASE).sub(args.file, command)
+  command=re.compile(re.escape('%path%'), re.IGNORECASE).sub(os.path.abspath(args.file), command)
+  command=re.compile(re.escape('%ident%'), re.IGNORECASE).sub(magics[unpackIfZip(args.file)], command)
+  command=re.compile(re.escape('%magic%'), re.IGNORECASE).sub(unpackIfZip(args.file), command)
   return command
 
 # analyze the zip file and return the first file if single file
@@ -133,19 +133,22 @@ def printAnalysis(f):
   print(bytes[:50])
   sys.exit(0)
 
+# get the real magic (in case this is a zipped file containing (possible) malware)
+def unpackIfZip(f):
+  mag=getMagic(f)
+  if not mag:
+    printAnalysis(f)
+  if magics[mag]=="ZIP":
+    mag=getMagic(analyzeZIP(f))
+    if not mag:
+      printAnalysis(analyzeZIP(f))
+  return mag
+
 # main function
 def analyze(f,config=None):
   try:
-    mag=getMagic(f)
-    print(mag)
-    if not mag:
-      printAnalysis(f)
-    if magics[mag]=="ZIP":
-      #print(analyzeZIP(f))
-      mag=getMagic(analyzeZIP(f))
-      if not mag:
-        printAnalysis(analyzeZIP(f))
-    com=getCommandFor(magics[mag], config=config)
+    mag=unpackIfZip(f)
+    com=getCommandFor(magics[mag], config=config) if mag else None
     if com:
       try:
         subprocess.call(com.split(' '))
