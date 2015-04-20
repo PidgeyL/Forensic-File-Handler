@@ -41,7 +41,7 @@ def toString(b):
 
 def readBinary(f):
   with open(f, "rb") as fIn:
-    binary=fIn.read()
+    binary=bytes(fIn.read())
   return binary
 
 
@@ -59,7 +59,7 @@ def getCommandFor(fileType, config=None):
   try:
     if not config:
       config=CONFIGFILE
-    rules=[x.strip() for x in open(config)]
+    rules=[x.strip() for x in open(config) if ":" in x]
   except IOError:
     sys.exit("Couldn't open file")
   except Exception as e:
@@ -70,10 +70,11 @@ def getCommandFor(fileType, config=None):
       command=':'.join(x.split(':')[1:])
       break
   # replace variables
-  command=re.compile(re.escape('%name%'), re.IGNORECASE).sub(args.file, command)
-  command=re.compile(re.escape('%path%'), re.IGNORECASE).sub(os.path.abspath(args.file), command)
-  command=re.compile(re.escape('%ident%'), re.IGNORECASE).sub(MAGICS[unpackIfZip(args.file)], command)
-  command=re.compile(re.escape('%magic%'), re.IGNORECASE).sub(unpackIfZip(args.file), command)
+  if command:
+    command=re.compile(re.escape('%name%'), re.IGNORECASE).sub(args.file, command)
+    command=re.compile(re.escape('%path%'), re.IGNORECASE).sub(os.path.abspath(args.file), command)
+    command=re.compile(re.escape('%ident%'), re.IGNORECASE).sub(MAGICS[unpackIfZip(args.file)], command)
+    command=re.compile(re.escape('%magic%'), re.IGNORECASE).sub(unpackIfZip(args.file), command)
   return command
 
 # analyze the zip file and return the first file if single file
