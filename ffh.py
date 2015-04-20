@@ -44,11 +44,13 @@ def readBinary(f):
     binary=bytes(fIn.read())
   return binary
 
+def esc(i):
+  return i.replace('\\','\\\\')
 
 # analyze ascii version of the stream to find the magic
 def getMagic(f):
   bytes = readBinary(f) if type(f) == str else f
-  hexFile=toString((binascii.hexlify(bytes).upper())[:16])
+  hexFile=toString((binascii.hexlify(bytes).upper()))
   for x in list(MAGICS.keys()):
     if hexFile.startswith(x.replace(" ","")): return x
   return None
@@ -71,10 +73,10 @@ def getCommandFor(fileType, config=None):
       break
   # replace variables
   if command:
-    command=re.compile(re.escape('%name%'), re.IGNORECASE).sub(args.file, command)
-    command=re.compile(re.escape('%path%'), re.IGNORECASE).sub(os.path.abspath(args.file), command)
-    command=re.compile(re.escape('%ident%'), re.IGNORECASE).sub(MAGICS[unpackIfZip(args.file)], command)
-    command=re.compile(re.escape('%magic%'), re.IGNORECASE).sub(unpackIfZip(args.file), command)
+    command=re.compile(re.escape('%name%'), re.IGNORECASE).sub(esc(args.file), command)
+    command=re.compile(re.escape('%path%'), re.IGNORECASE).sub(esc(os.path.abspath(args.file)), command)
+    command=re.compile(re.escape('%ident%'), re.IGNORECASE).sub(esc(MAGICS[unpackIfZip(args.file)]), command)
+    command=re.compile(re.escape('%magic%'), re.IGNORECASE).sub(esc(unpackIfZip(args.file)), command)
   return command
 
 # analyze the zip file and return the first file if single file
