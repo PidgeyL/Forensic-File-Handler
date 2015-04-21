@@ -79,5 +79,5 @@ FF FF FF FF                                                             - ....  
 [512 bytes] EC A5 C1 00                                                 - [512 bytes]....          - DOC   - .doc
 [29152 bytes] 57 69 6E 5A 69 70                                         - [29152 bytes]WinZip      - ZIP   - .zip
 ```
-**note:** If you want to parse two magics with the same ident in a different way, you can change the pairs in the variable `magics` in `ffh.py`
+**note:** If you want to parse two magics with the same ident in a different way, you can change the pairs in the variable `magics` in `ffh.py`<br />
 **note:** As for now, the program cannot handle offsets or random bytes in the signature. This will be added in the future.

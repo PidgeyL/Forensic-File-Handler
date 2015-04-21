@@ -6,6 +6,7 @@
 #
 # Copyright (c) 2015	 	Pieter-Jan Moreels - pieterjan.moreels@gmail.com
 
+# Imports
 import re
 import os
 import sys
@@ -13,8 +14,9 @@ import argparse
 import subprocess
 import zipfile
 import binascii
-
 import traceback
+
+from byteAnalysis import HexAsciiDump
 
 # Variables
 CONFIGFILE = 'ffh.txt'
@@ -111,10 +113,10 @@ def analyzeZIP(f):
   return f
 
 def printAnalysis(f):
-  stmag = getMagic(f)
-  magic = getMagic(f) if getMagic(f) else "Not Recognised"
-  print("Magic for the file: '%s'"%magic)
-  print(readBinary(f)[:50])
+  #magic = getMagic(f) if getMagic(f) else "Not Recognised"
+  print("Magic found: '%s'"%getMagic(f))
+  print("Ident found: '%s'\n"%MAGICS[getMagic(f)])
+  print(HexAsciiDump(readBinary(f)[:64]))
   sys.exit(0)
 
 # get the real magic (in case this is a zipped file containing (possible) malware)
