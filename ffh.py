@@ -27,7 +27,11 @@ MAGICS={"52 61 72 21 1A 07 00":"RAR",          "52 61 72 21 1A 07 01 00":"RAR", 
         "ED AB EE DB":"RPM",        "FF":"SYS",          "FF FF FF FF":"SYS",    "FF 4B 45 59 42 20 20 20":"SYS", 
         "00 00 00 14 66 74 79 70 71 74 20 20":"MOV",    "00 00 00 14 66 74 79 70 69 73 6F 6D":"MP4",    "00 00 00 18 66 74 79 70 33 67 70 35":"MP4",
         "00 00 00 1C 66 74 79 70 4D 53 4E 56 01 29 00 46 4D 53 4E 56 6D 70 34 32":"MP4",                "[4 bytes] 66 74 79 70 33 67 70 35":"MP4",
-        "[4 bytes] 66 74 79 70 6D 70 34 32":"M4V", "[4 byte offset] 66 74 79 70 4D 34 41 20":""}
+        "[4 bytes] 66 74 79 70 4D 34 41 20":"M4A",      "[4 bytes] 66 74 79 70 4D 53 4E 56":"MP4",      "[4 bytes] 66 74 79 70 69 73 6F 6D":"MP4",
+        "[4 bytes] 66 74 79 70 6D 70 34 32":"M4A",      "[4 bytes] 66 74 79 70 71 74 20 20":"MOV",      "[4 bytes] 6D 6F 6F 76":"MOV",
+        "[30 bytes] 50 4B 4C 49 54 45":"ZIP",           "[512 bytes] 00 6E 1E F0":"PPT",                "[512 bytes] 09 08 10 00 00 06 05 00":"XLS",
+        "[512 bytes] 0F 00 E8 03":"PPT",                "[512 bytes] A0 46 1D F0":"PPT",                "[512 bytes] EC A5 C1 00":"DOC",
+        "[29152 bytes] 57 69 6E 5A 69 70":"ZIP"}
 
 # Parsing arguments
 parser = argparse.ArgumentParser(description='Analyzes a file for its true file type and act accordingly')

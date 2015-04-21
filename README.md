@@ -64,6 +64,20 @@ ED AB EE DB                                                             - ....  
 FF                                                                      - .                        - SYS   - .sys
 FF 4B 45 59 42 20 20 20                                                 - .KEYB                    - SYS   - .sys
 FF FF FF FF                                                             - ....                     - SYS   - .sys
+[4 bytes] 66 74 79 70 33 67 70 35                                       - [4 bytes]ftyp3gp5        - MP4   - .mp4
+[4 bytes] 66 74 79 70 4D 34 41 20                                       - [4 bytes]ftypM4A         - M4A   - .m4a
+[4 bytes] 66 74 79 70 4D 53 4E 56                                       - [4 bytes]ftypMSNV        - MP4   - .mp4
+[4 bytes] 66 74 79 70 69 73 6F 6D                                       - [4 bytes]ftypisom        - MP4   - .mp4
+[4 bytes] 66 74 79 70 6D 70 34 32                                       - [4 byte]sftypmp42        - M4A   - .m4a
+[4 bytes] 66 74 79 70 71 74 20 20                                       - [4 bytes]ftypqt          - MOV   - .mov
+[4 bytes] 6D 6F 6F 76                                                   - [4 bytes]moov            - MOV   - .mov
+[30 bytes] 50 4B 4C 49 54 45                                            - [30 bytes]PKLITE         - ZIP   - .zip
+[512 bytes] 00 6E 1E F0                                                 - [512 bytes].n..          - PPT   - .ppt
+[512 bytes] 09 08 10 00 00 06 05 00                                     - [512 bytes]........      - XLS   - .xls
+[512 bytes] 0F 00 E8 03                                                 - [512 bytes]..è.          - PPT   - .ppt
+[512 bytes] A0 46 1D F0                                                 - [512 bytes].F..          - PPT   - .ppt
+[512 bytes] EC A5 C1 00                                                 - [512 bytes]....          - DOC   - .doc
+[29152 bytes] 57 69 6E 5A 69 70                                         - [29152 bytes]WinZip      - ZIP   - .zip
 ```
 **note:** If you want to parse two magics with the same ident in a different way, you can change the pairs in the variable `magics` in `ffh.py`
 **note:** As for now, the program cannot handle offsets or random bytes in the signature. This will be added in the future.
