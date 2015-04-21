@@ -26,7 +26,8 @@ MAGICS={"52 61 72 21 1A 07 00":"RAR",          "52 61 72 21 1A 07 01 00":"RAR", 
         "42 4D":"BMP",              "5F 27 A8 89":"JAR", "7E 74 2C 01":"IMG",    "66 4C 61 43 00 00 00 22":"FLAC",   "CA FE BA BE":"CLASS",
         "ED AB EE DB":"RPM",        "FF":"SYS",          "FF FF FF FF":"SYS",    "FF 4B 45 59 42 20 20 20":"SYS", 
         "00 00 00 14 66 74 79 70 71 74 20 20":"MOV",    "00 00 00 14 66 74 79 70 69 73 6F 6D":"MP4",    "00 00 00 18 66 74 79 70 33 67 70 35":"MP4",
-        "00 00 00 1C 66 74 79 70 4D 53 4E 56 01 29 00 46 4D 53 4E 56 6D 70 34 32":"MP4"}
+        "00 00 00 1C 66 74 79 70 4D 53 4E 56 01 29 00 46 4D 53 4E 56 6D 70 34 32":"MP4",                "[4 bytes] 66 74 79 70 33 67 70 35":"MP4",
+        "[4 bytes] 66 74 79 70 6D 70 34 32":"M4V"}
 
 # Parsing arguments
 parser = argparse.ArgumentParser(description='Analyzes a file for its true file type and act accordingly')
@@ -44,15 +45,20 @@ def readBinary(f):
     binary=bytes(fIn.read())
   return binary
 
+# this function makes it so that re.sub does not interpret backspaces
 def esc(i):
-  return i.replace('\\','\\\\')
+  return i
 
 # analyze ascii version of the stream to find the magic
 def getMagic(f):
   bytes = readBinary(f) if type(f) == str else f
   hexFile=toString((binascii.hexlify(bytes).upper()))
+  reOffset=re.compile("(\[\s*(\d)+ byte(s)?\s*\](\s*|\d|[A-F]|[a-f])+)")
   for x in list(MAGICS.keys()):
-    if hexFile.startswith(x.replace(" ","")): return x
+    result=reOffset.match(x)
+    offset=int(result.group(2))*2 if result else 0
+    y=(x.split("]"))[1].strip() if result else x
+    if hexFile[offset:].startswith(y.replace(" ","")): return x
   return None
 
 # get the command that matches the magic
@@ -103,7 +109,7 @@ def analyzeZIP(f):
 def printAnalysis(f):
   bytes = open(f, "rb").read() if type(f) == str else f
   stmag = getMagic(bytes)
-  magic = ' '.join([stmag[i:i+2] for i in range(0,len(stmag),2)]) if getMagic(bytes) else "Not Recognised"
+  magic = getMagic(bytes) if getMagic(bytes) else "Not Recognised"
   print("Magic for the file: '%s'"%magic)
   print(bytes[:50])
   sys.exit(0)
