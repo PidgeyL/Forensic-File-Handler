@@ -10,6 +10,7 @@
 import argparse
 import binascii
 import hashlib
+import math
 import sys
 
 # Variables
@@ -90,12 +91,30 @@ def HexAsciiDump(data):
     oDumpStream.Addline(CombineHexAscii(hexDump, asciiDump))
     return oDumpStream.Content()
 
+# calculate the frequency of each byte value in the file
+def getFrequency(byteArr):
+  freqList = []
+  for b in range(256):
+    ctr = 0
+    for byte in byteArr:
+      if byte == b: ctr += 1
+    freqList.append(float(ctr)/len(byteArr))
+  return freqList
+
+# Shannon entropy
+def entropy(byteFreq):
+  ent = 0.0
+  for freq in byteFreq:
+    if freq > 0: ent = ent + freq * math.log(freq, 2)
+  return -ent
 
 # analysis
 def byteAnalysis(f):
   # entropy
   binFile=readBinary(f)
-  print("MD5 hash:    '%s'\n"%hashlib.md5(readBinary(f) ).hexdigest())
+  print("MD5 hash:    '%s'"%hashlib.md5(binFile).hexdigest())
+  print("Entropy:     '%s'"%entropy(getFrequency(binFile)))
+  print("File size:   '%s'\n"%len(binFile)
   print(HexAsciiDump(binFile[:64]))
 
 
