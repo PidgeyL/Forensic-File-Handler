@@ -15,6 +15,7 @@ import sys
 
 # Variables
 dumplinelength = 16
+dumpbytelength = 256
 
 # Parsing arguments
 parser = argparse.ArgumentParser(description='Analyzes a file and print an analysis based on the bytes')
@@ -126,7 +127,7 @@ def byteAnalysis(f):
   print("MD5 hash:    '%s'"%hashlib.md5(binFile).hexdigest())
   print("Entropy:     '%s'"%entropy(getFrequency(binFile)))
   print("File size:   '%s'\n"%humanfsize)
-  print(HexAsciiDump(binFile[:128]))
+  print(HexAsciiDump(binFile[:dumpbytelength]))
 
 
 if __name__ == '__main__':

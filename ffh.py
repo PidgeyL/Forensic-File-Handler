@@ -116,7 +116,7 @@ def printAnalysis(f):
   magic = getMagic(f)
   print("Magic found: '%s'"%magic)
   print("Ident found: '%s'"%(MAGICS[magic] if magic else "None"))
-  print(byteAnalysis(f))
+  byteAnalysis(f)
   sys.exit(0)
 
 # get the real magic (in case this is a zipped file containing (possible) malware)
