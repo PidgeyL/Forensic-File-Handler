@@ -15,7 +15,7 @@ import subprocess
 import zipfile
 import binascii
 import traceback
-
+from collections import OrderedDict
 from byteAnalysis import byteAnalysis
 
 # Variables
@@ -60,7 +60,7 @@ def getMagic(f):
   bytes = readBinary(f) if type(f) == str else f
   hexFile=toString((binascii.hexlify(bytes).upper()))
   reOffset=re.compile("(\[\s*(\d)+ byte(s)?\s*\](\s*|\d|[A-F]|[a-f])+)")
-  for x in list(MAGICS.keys()):
+  for x in sorted(list(MAGICS.keys()),reverse=True):
     result=reOffset.match(x)
     offset=int(result.group(2))*2 if result else 0
     y=(x.split("]"))[1].strip() if result else x
@@ -113,9 +113,9 @@ def analyzeZIP(f):
   return f
 
 def printAnalysis(f):
-  #magic = getMagic(f) if getMagic(f) else "Not Recognised"
-  print("Magic found: '%s'"%getMagic(f))
-  print("Ident found: '%s'"%MAGICS[getMagic(f)])
+  magic = getMagic(f)
+  print("Magic found: '%s'"%magic)
+  print("Ident found: '%s'"%(MAGICS[magic] if magic else "None"))
   print(byteAnalysis(f))
   sys.exit(0)
 
