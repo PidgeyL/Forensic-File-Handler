@@ -9,6 +9,7 @@
 # Imports
 import argparse
 import binascii
+import hashlib
 import sys
 
 # Variables
@@ -91,13 +92,12 @@ def HexAsciiDump(data):
 
 
 # analysis
-def printAnalysis(f):
-#header?
-#  magic = getMagic(f) if getMagic(f) else "Not Recognised"
-#  print("Magic for the file: '%s'"%magic)
+def byteAnalysis(f):
+  # entropy
   binFile=readBinary(f)
+  print("MD5 hash:    '%s'\n"%hashlib.md5(readBinary(f) ).hexdigest())
   print(HexAsciiDump(binFile[:64]))
 
 
 if __name__ == '__main__':
-  printAnalysis(args.file)
+  byteAnalysis(args.file)
