@@ -93,11 +93,13 @@ def HexAsciiDump(data):
 
 # calculate the frequency of each byte value in the file
 def getFrequency(byteArr):
+  CConvert = lambda x: x
+  if sys.version_info < (3, 0): CConvert = lambda x: ord(x)
   freqList = []
   for b in range(256):
     ctr = 0
     for byte in byteArr:
-      if byte == b: ctr += 1
+      if CConvert(byte) == b: ctr += 1
     freqList.append(float(ctr)/len(byteArr))
   return freqList
 
@@ -123,8 +125,8 @@ def byteAnalysis(f):
     humanfsize="%sb"%(filesize)
   print("MD5 hash:    '%s'"%hashlib.md5(binFile).hexdigest())
   print("Entropy:     '%s'"%entropy(getFrequency(binFile)))
-  print("File size:   '%s bytes'\n"%humanfsize)
-  print(HexAsciiDump(binFile[:64]))
+  print("File size:   '%s'\n"%humanfsize)
+  print(HexAsciiDump(binFile[:128]))
 
 
 if __name__ == '__main__':
