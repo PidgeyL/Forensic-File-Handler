@@ -34,7 +34,7 @@ MAGICS={"52 61 72 21 1A 07 00":"RAR",          "52 61 72 21 1A 07 01 00":"RAR", 
         "[30 bytes] 50 4B 4C 49 54 45":"ZIP",           "[512 bytes] 00 6E 1E F0":"PPT",                "[512 bytes] 09 08 10 00 00 06 05 00":"XLS",
         "[512 bytes] 0F 00 E8 03":"PPT",                "[512 bytes] A0 46 1D F0":"PPT",                "[512 bytes] EC A5 C1 00":"DOC",
         "[29152 bytes] 57 69 6E 5A 69 70":"ZIP"}
-
+ASCII_PRINTABLE=list(range(0x20,0x80))+list(range(0x08,0x0B))
 # Parsing arguments
 parser = argparse.ArgumentParser(description='Analyzes a file for its true file type and act accordingly')
 parser.add_argument('file', metavar='File',   type=str, help="A file containing the items to check")
@@ -133,6 +133,12 @@ def unpackIfZip(f):
 # main function
 def analyze(f,config=None):
   try:
+    byteFile=readBinary(f)
+    pureText=True
+    for x in byteFile:
+      if not x in ASCII_PRINTABLE: pureText=False;break
+    print("Is pure ascii: %s"%pureText)
+
     mag=unpackIfZip(f)
     com=getCommandFor(MAGICS[mag], config=config) if mag else None
     if com:

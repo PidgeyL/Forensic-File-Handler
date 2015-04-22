@@ -74,7 +74,7 @@ FF FF FF FF                                                             - ....  
 [30 bytes] 50 4B 4C 49 54 45                                            - [30 bytes]PKLITE         - ZIP   - .zip
 [512 bytes] 00 6E 1E F0                                                 - [512 bytes].n..          - PPT   - .ppt
 [512 bytes] 09 08 10 00 00 06 05 00                                     - [512 bytes]........      - XLS   - .xls
-[512 bytes] 0F 00 E8 03                                                 - [512 bytes]..è.          - PPT   - .ppt
+[512 bytes] 0F 00 E8 03                                                 - [512 bytes]....          - PPT   - .ppt
 [512 bytes] A0 46 1D F0                                                 - [512 bytes].F..          - PPT   - .ppt
 [512 bytes] EC A5 C1 00                                                 - [512 bytes]....          - DOC   - .doc
 [29152 bytes] 57 69 6E 5A 69 70                                         - [29152 bytes]WinZip      - ZIP   - .zip
