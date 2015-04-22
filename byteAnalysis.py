@@ -112,9 +112,18 @@ def entropy(byteFreq):
 def byteAnalysis(f):
   # entropy
   binFile=readBinary(f)
+  filesize=len(binFile)
+  if filesize >= 1073741824:
+    humanfsize="%.2fGB (%sb)"%(filesize/1073741824,filesize)
+  elif filesize >= 1048576:
+    humanfsize="%.2fMB (%sb)"%(filesize/1048576,filesize)
+  elif filesize >= 1024:
+    humanfsize="%.2fKB (%sb)"%(filesize/1024,filesize)
+  else:
+    humanfsize="%sb"%(filesize)
   print("MD5 hash:    '%s'"%hashlib.md5(binFile).hexdigest())
   print("Entropy:     '%s'"%entropy(getFrequency(binFile)))
-  print("File size:   '%s'\n"%len(binFile)
+  print("File size:   '%s bytes'\n"%humanfsize)
   print(HexAsciiDump(binFile[:64]))
 
 
