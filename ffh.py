@@ -22,18 +22,26 @@ from byteAnalysis import byteAnalysis
 # Variables
 CONFIGFILE = 'ffh.txt'
 ZIPPASSWORD = 'infected'
-MAGICS={"52 61 72 21 1A 07 00":"RAR",          "52 61 72 21 1A 07 01 00":"RAR", "50 4B 03 04 0A 00 02 00":"EPUB", "50 4B 03 04 14 00 06 00":"OLE",
-        "50 4B 03 04 14 00 08 00 08 00":"JAR", "50 4B 03 04":"ZIP",             "89 50 4E 47 0D 0A 1A 0A":"PNG",  "47 49 46 38 37 61":"GIF",
-        "47 49 46 38 39 61":"GIF",  "25 50 44 46":"PDF", "D0 CF 11 E0":"OLE",    "49 44 33":"MP3", "4D 5A":"EXE",    "1A 45 DF A3":"WEBM",
-        "37 7A BC AF 27 1C":"7ZIP", "46 4C 56 01":"FLV", "43 44 30 30 31":"ISO", "43 57 53":"SWF", "46 57 53":"SWF", "5A 57 53":"SWF",
-        "42 4D":"BMP",              "5F 27 A8 89":"JAR", "7E 74 2C 01":"IMG",    "66 4C 61 43 00 00 00 22":"FLAC",   "CA FE BA BE":"CLASS",
-        "ED AB EE DB":"RPM",        "FF":"SYS",          "FF FF FF FF":"SYS",    "FF 4B 45 59 42 20 20 20":"SYS", 
-        "00 00 00 14 66 74 79 70 71 74 20 20":"MOV",    "00 00 00 14 66 74 79 70 69 73 6F 6D":"MP4",    "00 00 00 18 66 74 79 70 33 67 70 35":"MP4",
-        "00 00 00 1C 66 74 79 70 4D 53 4E 56 01 29 00 46 4D 53 4E 56 6D 70 34 32":"MP4",                "[4 bytes] 66 74 79 70 33 67 70 35":"MP4",
+MAGICS={"FF":"SYS",                "4D 5A":"EXE",            "42 4D":"BMP",             "FF Ex":"MP3",           "FF Fx":"MP3"
+        "49 44 33":"MP3",          "43 57 53":"SWF",         "46 57 53":"SWF",          "5A 57 53":"SWF",
+        "ED AB EE DB":"RPM",       "FF FF FF FF":"SYS", 
+        "5F 27 A8 89":"JAR",       "7E 74 2C 01":"IMG",      "46 4C 56 01":"FLV",       "D0 CF 11 E0":"OLE",     "1A 45 DF A3":"WEBM",
+        "00 00 01 Bx":"MPG",       "00 00 01 BA":"MPG",      "50 4B 03 04":"ZIP",       "25 50 44 46":"PDF",     "CA FE BA BE":"CLASS",
+        "43 44 30 30 31":"ISO",   
+        "47 49 46 38 37 61":"GIF",       "47 49 46 38 39 61":"GIF",        "37 7A BC AF 27 1C":"7ZIP",      "50 4B 03 04 0A 00 02 00":"EPUB",
+        "50 4B 03 04 14 00 06 00":"OLE", "66 4C 61 43 00 00 00 22":"FLAC", "89 50 4E 47 0D 0A 1A 0A":"PNG", "FF 4B 45 59 42 20 20 20":"SYS",
+        "50 4B 03 04 14 00 08 00 08 00":"JAR",       "FF D8 FF E0 xx xx 4A 46 49 46 00":"JPG",    "FF D8 FF E1 xx xx 45 78 69 66 00":"JPG",
+        "FF D8 FF E8 xx xx 53 50 49 46 46 00":"JPG", "00 00 00 14 66 74 79 70 69 73 6F 6D":"MP4", "00 00 00 18 66 74 79 70 33 67 70 35":"MP4",
+        "00 00 00 14 66 74 79 70 71 74 20 20":"MOV",
+        "52 49 46 46 xx xx xx xx 41 56 49 20 4C 49 53 54":"AVI",           "52 49 46 46 xx xx xx xx 57 41 56 45 66 6D 74 20":"WAV",
+        "52 61 72 21 1A 07 00":"RAR", "52 61 72 21 1A 07 01 00":"RAR", 
+        "00 00 00 1C 66 74 79 70 4D 53 4E 56 01 29 00 46 4D 53 4E 56 6D 70 34 32":"MP4",
+        "[4 bytes] 66 74 79 70 33 67 70 35":"MP4",
         "[4 bytes] 66 74 79 70 4D 34 41 20":"M4A",      "[4 bytes] 66 74 79 70 4D 53 4E 56":"MP4",      "[4 bytes] 66 74 79 70 69 73 6F 6D":"MP4",
         "[4 bytes] 66 74 79 70 6D 70 34 32":"M4A",      "[4 bytes] 66 74 79 70 71 74 20 20":"MOV",      "[4 bytes] 6D 6F 6F 76":"MOV",
         "[30 bytes] 50 4B 4C 49 54 45":"ZIP",           "[512 bytes] 00 6E 1E F0":"PPT",                "[512 bytes] 09 08 10 00 00 06 05 00":"XLS",
         "[512 bytes] 0F 00 E8 03":"PPT",                "[512 bytes] A0 46 1D F0":"PPT",                "[512 bytes] EC A5 C1 00":"DOC",
+        "[512 byte offset] FD FF FF FF xx xx xx xx xx xx xx xx 04 00 00 00":"DB"
         "[29152 bytes] 57 69 6E 5A 69 70":"ZIP"}
 
 # python2 and 3 compatible functions
