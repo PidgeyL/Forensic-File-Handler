@@ -76,7 +76,7 @@ def HexAsciiDump(data):
     oDumpStream = cDumpStream()
     hexDump = ''
     asciiDump = ''
-
+    # python 2&3 compatibility
     CConvert = lambda x: chr(x)
     if sys.version_info < (3, 0): CConvert = lambda x: x
 
