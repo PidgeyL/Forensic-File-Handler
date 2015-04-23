@@ -42,23 +42,29 @@ def toString(b):
 
 def readBinary(f):
   with open(f, "rb") as fIn:
-    binary=bytes(fIn.read())
+    binary=bytearray(fIn.read())
   return binary
 
 # this function makes it so that re.sub does not interpret backspaces
 def esc(i):
   return i
 
+# allows us to work with both strings (the file path) and bytearrays
+def readFileIfString(f):
+  return readBinary(f) if type(f) == str else f
+
 # analyze ascii version of the stream to find the magic
 def getMagic(f):
-  bytes = readBinary(f) if type(f) == str else f
+  bytes = readFileIfString(f)
   hexFile=toString((binascii.hexlify(bytes).upper()))
   reOffset=re.compile("(\[\s*(\d)+ byte(s)?\s*\](\s*|\d|[A-F]|[a-f])+)")
   for x in sorted(list(MAGICS.keys()),reverse=True):
     result=reOffset.match(x)
     offset=int(result.group(2))*2 if result else 0
     y=(x.split("]"))[1].strip() if result else x
-    if hexFile[offset:].startswith(y.replace(" ","")): return x
+    y=y.replace("x",".")
+    reg=re.compile("^(%s[\s\dA-Fa-f]+)"%y.replace(" ",""))
+    if reg.search(hexFile[offset:]): return x
   return None
 
 # get the command that matches the magic
@@ -107,51 +113,47 @@ def analyzeZIP(f):
   return f
 
 def isPrintableAscii(f):
-  for x in f:
-    if not x in (string.printable): return False
+  bytes=readFileIfString(f)
+  for x in bytes:
+    if not x in ([ord(x) for x in string.printable]): return False
   return True
 
-def printAnalysis(f):
-  if not isPrintableAscii(f):
-    magic = getMagic(f)
+def printAnalysis(f,byteFile):
+  if not isPrintableAscii(byteFile):
+    magic = getMagic(byteFile)
     ident = MAGICS[magic] if magic else "None"
   else:
     magic = None
     ident = "TXT"
   print("Magic found: '%s'"%magic)
   print("Ident found: '%s'"%ident)
-  byteAnalysis(f)
+  byteAnalysis(byteFile)
   sys.exit(0)
 
 # get the real magic (in case this is a zipped file containing (possible) malware)
 def unpackIfZip(f):
   mag=getMagic(f)
-  if not mag:
-    printAnalysis(f)
-  if MAGICS[mag]=="ZIP":
+  if mag and MAGICS[mag]=="ZIP":
     mag=getMagic(analyzeZIP(f))
-    if not mag:
-      printAnalysis(analyzeZIP(f))
   return mag
 
 # main function
 def analyze(f,config=None):
   try:
     byteFile=readBinary(f)
-    if not isPrintableAscii(f):
+    if not isPrintableAscii(byteFile):
       mag=unpackIfZip(f)
       com=getCommandFor(MAGICS[mag], config=config) if mag else None
     else:
       mag=None
       com=getCommandFor("TXT", config=config)
-
     if com:
       try:
         subprocess.call(com.split(' '))
       except:
         print("The command (%s) for %s (magic: %s) in %s does not work."%(com.split(' ')[0], MAGICS[mag], mag, config))
     else:
-      printAnalysis(f)
+      printAnalysis(f,byteFile)
   except IOError:
     sys.exit("Couldn't open file")
   except Exception as e:

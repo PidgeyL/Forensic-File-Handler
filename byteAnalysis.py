@@ -26,6 +26,10 @@ def readBinary(f):
     binary=bytes(fIn.read())
   return binary
 
+# allows us to work with both strings (the file path) and bytearrays
+def readFileIfString(f):
+  return readBinary(f) if type(f) == str else f
+
 # CIC: Call If Callable
 def CIC(expression):
     if callable(expression):
@@ -71,31 +75,24 @@ def HexAsciiDump(data):
     oDumpStream = cDumpStream()
     hexDump = ''
     asciiDump = ''
-    # python 2&3 compatibility
-    CConvert = lambda x: chr(x)
-    if sys.version_info < (3, 0): CConvert = lambda x: x
-
     for i, b in enumerate(data):
-        b=CConvert(b)
         if i % dumplinelength == 0:
             if hexDump != '':
                 oDumpStream.Addline(CombineHexAscii(hexDump, asciiDump))
             hexDump = '%08X:' % i
             asciiDump = ''
-        hexDump+= ' %02X' % ord(b)
-        asciiDump += IFF(ord(b) >= 32, b, '.')
+        hexDump+= ' %02X' % b
+        asciiDump += IFF(b >= 32, chr(b), '.')
     oDumpStream.Addline(CombineHexAscii(hexDump, asciiDump))
     return oDumpStream.Content()
 
 # calculate the frequency of each byte value in the file
 def getFrequency(byteArr):
-  CConvert = lambda x: x
-  if sys.version_info < (3, 0): CConvert = lambda x: ord(x)
   freqList = []
   for b in range(256):
     ctr = 0
     for byte in byteArr:
-      if CConvert(byte) == b: ctr += 1
+      if byte == b: ctr += 1
     freqList.append(float(ctr)/len(byteArr))
   return freqList
 
@@ -109,7 +106,7 @@ def entropy(byteFreq):
 # analysis
 def byteAnalysis(f):
   # entropy
-  binFile=readBinary(f)
+  binFile=readFileIfString(f)
   filesize=len(binFile)
   if filesize >= 1073741824:
     humanfsize="%.2fGB (%sb)"%(filesize/1073741824,filesize)
