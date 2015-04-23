@@ -17,11 +17,6 @@ import sys
 dumplinelength = 16
 dumpbytelength = 256
 
-# Parsing arguments
-parser = argparse.ArgumentParser(description='Analyzes a file and print an analysis based on the bytes')
-parser.add_argument('file', metavar='File',   type=str, help="A file containing the items to check")
-args = parser.parse_args()
-
 # python2 and 3 compatible functions
 def toString(b):
   return str(b) if sys.version_info < (3, 0) else str(b,'utf-8')
@@ -131,4 +126,9 @@ def byteAnalysis(f):
 
 
 if __name__ == '__main__':
+  # Parsing arguments
+  parser = argparse.ArgumentParser(description='Analyzes a file and print an analysis based on the bytes')
+  parser.add_argument('file', metavar='File',   type=str, help="A file containing the items to check")
+  args = parser.parse_args()
+
   byteAnalysis(args.file)

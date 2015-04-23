@@ -35,12 +35,6 @@ MAGICS={"52 61 72 21 1A 07 00":"RAR",          "52 61 72 21 1A 07 01 00":"RAR", 
         "[30 bytes] 50 4B 4C 49 54 45":"ZIP",           "[512 bytes] 00 6E 1E F0":"PPT",                "[512 bytes] 09 08 10 00 00 06 05 00":"XLS",
         "[512 bytes] 0F 00 E8 03":"PPT",                "[512 bytes] A0 46 1D F0":"PPT",                "[512 bytes] EC A5 C1 00":"DOC",
         "[29152 bytes] 57 69 6E 5A 69 70":"ZIP"}
-# Parsing arguments
-parser = argparse.ArgumentParser(description='Analyzes a file for its true file type and act accordingly')
-parser.add_argument('file', metavar='File',   type=str, help="A file containing the items to check")
-parser.add_argument('-c',   metavar="Config",           help='config file to use')
-parser.add_argument('-p',   metavar="Pass",             help='optional password for encrypted zip')
-args = parser.parse_args()
 
 # python2 and 3 compatible functions
 def toString(b):
@@ -113,7 +107,6 @@ def analyzeZIP(f):
   return f
 
 def isPrintableAscii(f):
-
   for x in f:
     if not x in (string.printable): return False
   return True
@@ -167,4 +160,11 @@ def analyze(f,config=None):
     sys.exit(e)
 
 if __name__ == '__main__':
+  # Parsing arguments
+  parser = argparse.ArgumentParser(description='Analyzes a file for its true file type and act accordingly')
+  parser.add_argument('file', metavar='File',   type=str, help="A file containing the items to check")
+  parser.add_argument('-c',   metavar="Config",           help='config file to use')
+  parser.add_argument('-p',   metavar="Pass",             help='optional password for encrypted zip')
+  args = parser.parse_args()
+
   analyze(args.file,config=args.c)
