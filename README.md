@@ -10,7 +10,7 @@ This download contains:
  
 Usage
 -----
-You can specify your commands of choice in ffo.txt (or pass a rules file by appending `-c <rule file>`). The rules file has following format: `<ident>:<command>`.
+You can specify your **commands** of choice in ffo.txt (or pass a rules file by appending `-c <rule file>`). The rules in the file need to have the following format: `<ident>:<command>`.
 
 the command can contain following parameters, which will be parsed by the script, and be replaced with their value:
 
@@ -18,15 +18,27 @@ the command can contain following parameters, which will be parsed by the script
  * **%path%**   the full path of the file
  * **%ident%**  the ident that was recognized
  * **%magic%**  the magic of the file
- 
+
+You can extend or override the default **magics** by appending `-m <magic file>` to the command. `--override` will temporarily drop the current magics list and only use the magics from the specified file. The magics in the file need to have following format: `<magic>:<ident>`.
+
 As this script is meant to be used for forensic cases, and if you store malware safely, you can insert it into an encrypted zip, the program will try to open zip files and read its content. If it detects a zip file with multiple files, or encrypted with an unknown password, it will analyze the zip file itself. If the zip file only contains one file, or is encrypted with the password *infected*, it will analyze the first file from the zip. If the password is not *infected*, you can add append `-p <password>` to the script.
 
 **note:** It is not an issue if the command contains colons. The ident, however, cannot contain colons.
 **note:** If you want to change the default rules file, you can change the variable `CONFIGFILE` in the script
 **note:** If you want to change the default password, you can change the variable `ZIPPASSWORD` in the script
 
+Licencing
+---------
+This software is licensed under the "Original BSD License".
+
+    (c) 2015  Pieter-Jan Moreels  https://github.com/pidgeyl
+
+
 Currently supported magics with their ident
 -------------------------------------------
+
+**note:** If you want to parse two magics with the same ident in a different way, you can change the pairs in the variable `magics` in `ffh.py`<br />
+**note:** As for now, the program cannot handle offsets or random bytes in the signature. This will be added in the future.
 
 ```
 Magic                                                                   - ASCII                    - Ident - Extension
@@ -107,5 +119,4 @@ FF FF FF FF                                                             - ....  
 [512 byte] FD FF FF FF xx xx xx xx xx xx xx xx 04 00 00 00              - [512 byte]................ - DB    - db
 [29152 bytes] 57 69 6E 5A 69 70                                         - [29152 bytes]WinZip        - ZIP   - zip
 ```
-**note:** If you want to parse two magics with the same ident in a different way, you can change the pairs in the variable `magics` in `ffh.py`<br />
-**note:** As for now, the program cannot handle offsets or random bytes in the signature. This will be added in the future.
+
