@@ -38,7 +38,6 @@ Currently supported magics with their ident
 -------------------------------------------
 
 **note:** If you want to parse two magics with the same ident in a different way, you can change the pairs in the variable `magics` in `ffh.py`<br />
-**note:** As for now, the program cannot handle offsets or random bytes in the signature. This will be added in the future.
 
 ```
 Magic                                                                   - ASCII                    - Ident - Extension

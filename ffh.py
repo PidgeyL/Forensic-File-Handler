@@ -180,7 +180,7 @@ if __name__ == '__main__':
   parser.add_argument('-c',   metavar="Config", type=str, help='config file to use')
   parser.add_argument('-p',   metavar="Pass",   type=str, help='optional password for encrypted zip')
   parser.add_argument('-m',   metavar="File",   type=str, help="File containing aditional magics")
-  parser.add_argument('--override',  action='store_true', help='update the database')
+  parser.add_argument('--override',  action='store_true', help='Only use magics from the added file')
   args = parser.parse_args()
 
   # Use aditional magics file
