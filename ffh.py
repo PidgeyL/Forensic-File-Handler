@@ -22,7 +22,7 @@ from byteAnalysis import byteAnalysis
 # Variables
 CONFIGFILE = 'ffh.txt'
 ZIPPASSWORD = 'infected'
-MAGICS={"FF":"SYS",                "4D 5A":"EXE",            "42 4D":"BMP",             "FF Ex":"MP3",           "FF Fx":"MP3"
+MAGICS={"FF":"SYS",                "4D 5A":"EXE",            "42 4D":"BMP",             "FF Ex":"MP3",           "FF Fx":"MP3",
         "49 44 33":"MP3",          "43 57 53":"SWF",         "46 57 53":"SWF",          "5A 57 53":"SWF",
         "ED AB EE DB":"RPM",       "FF FF FF FF":"SYS", 
         "5F 27 A8 89":"JAR",       "7E 74 2C 01":"IMG",      "46 4C 56 01":"FLV",       "D0 CF 11 E0":"OLE",     "1A 45 DF A3":"WEBM",
@@ -41,7 +41,7 @@ MAGICS={"FF":"SYS",                "4D 5A":"EXE",            "42 4D":"BMP",     
         "[4 bytes] 66 74 79 70 6D 70 34 32":"M4A",      "[4 bytes] 66 74 79 70 71 74 20 20":"MOV",      "[4 bytes] 6D 6F 6F 76":"MOV",
         "[30 bytes] 50 4B 4C 49 54 45":"ZIP",           "[512 bytes] 00 6E 1E F0":"PPT",                "[512 bytes] 09 08 10 00 00 06 05 00":"XLS",
         "[512 bytes] 0F 00 E8 03":"PPT",                "[512 bytes] A0 46 1D F0":"PPT",                "[512 bytes] EC A5 C1 00":"DOC",
-        "[512 byte offset] FD FF FF FF xx xx xx xx xx xx xx xx 04 00 00 00":"DB"
+        "[512 byte offset] FD FF FF FF xx xx xx xx xx xx xx xx 04 00 00 00":"DB",
         "[29152 bytes] 57 69 6E 5A 69 70":"ZIP"}
 
 # python2 and 3 compatible functions
@@ -81,7 +81,8 @@ def getCommandFor(fileType, config=None):
   try:
     if not config:
       config=CONFIGFILE
-    rules=[x.strip() for x in open(config) if ":" in x]
+    rules=[x.strip() for x in open(config) if ":" in x and not x.startswith("#")]
+    print(rules)
   except IOError:
     sys.exit("Couldn't open file")
   except Exception as e:
