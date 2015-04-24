@@ -82,7 +82,6 @@ def getCommandFor(fileType, config=None):
     if not config:
       config=CONFIGFILE
     rules=[x.strip() for x in open(config) if ":" in x and not x.startswith("#")]
-    print(rules)
   except IOError:
     sys.exit("Couldn't open file")
   except Exception as e:
@@ -174,8 +173,21 @@ if __name__ == '__main__':
   # Parsing arguments
   parser = argparse.ArgumentParser(description='Analyzes a file for its true file type and act accordingly')
   parser.add_argument('file', metavar='File',   type=str, help="A file containing the items to check")
-  parser.add_argument('-c',   metavar="Config",           help='config file to use')
-  parser.add_argument('-p',   metavar="Pass",             help='optional password for encrypted zip')
+  parser.add_argument('-c',   metavar="Config", type=str, help='config file to use')
+  parser.add_argument('-p',   metavar="Pass",   type=str, help='optional password for encrypted zip')
+  parser.add_argument('-m',   metavar="File",   type=str, help="File containing aditional magics")
+  parser.add_argument('--override',  action='store_true', help='update the database')
   args = parser.parse_args()
+
+  # Use aditional magics file
+  if args.m:
+    if args.override:
+      MAGICS=[]
+    try:
+      MAGICS.update({x.split(":")[0].strip():x.split(":")[1].strip() for x in open(args.m) if ":" in x and not x.startswith("#")})
+    except IOError:
+      sys.exit("Couldn't open the magic file")
+    except Exception as e:
+      raise(e)
 
   analyze(args.file,config=args.c)
