@@ -31,53 +31,81 @@ Currently supported magics with their ident
 ```
 Magic                                                                   - ASCII                    - Ident - Extension
 -----------------------------------------------------------------------------------------------------------------------
-00 00 00 14 66 74 79 70 71 74 20 20                                     - ....ftypqt               - MOV   - .mov
-00 00 00 14 66 74 79 70 69 73 6F 6D                                     - ....ftypisom             - MP4   - .mp4
-00 00 00 18 66 74 79 70 33 67 70 35                                     - ....ftyp3gp5             - MP4   - .mp4
-00 00 00 1C 66 74 79 70 4D 53 4E 56 01 29 00 46 4D 53 4E 56 6D 70 34 32 - ....ftypMSNV.).FMSNVmp42 - MP4   - .mp4
-1A 45 DF A3                                                             - .E..                     - WEBM  - .webm
-25 50 44 46                                                             - %PDF                     - PDF   - .pdf
-37 7A BC AF 27 1C                                                       - 7z..'.                   - 7ZIP  - .7z
-42 4D                                                                   - BM                       - BMP   - .bmp
-43 44 30 30 31                                                          - CD001                    - ISO   - .iso
-46 4C 56 01                                                             - FLV.                     - FLV   - .flv
-43 57 53                                                                - CWS                      - SWF   - .swf
-46 57 53                                                                - FWS                      - SWF   - .swf
-47 49 46 38 37 61                                                       - GIF87a                   - GIF   - .gif
-47 49 46 38 39 61                                                       - GIF89a                   - GIF   - .gif
-49 44 33                                                                - ID3                      - MP3   - .mp3
-4D 5A                                                                   - MZ                       - EXE   - .exe
-50 4B 03 04                                                             - PK..                     - ZIP   - .zip
-50 4B 03 04 14 00 06 00                                                 - PK......                 - OLE   - .docx, pptx, xlsx
-50 4B 03 04 14 00 08 00 08 00                                           - PK........               - JAR   - .jar
-50 4B 03 04 0A 00 02 00                                                 - PK......                 - EPUB  - .epub
-52 61 72 21 1A 07 00                                                    - Rar!...                  - RAR   - .rar
-52 61 72 21 1A 07 01 00                                                 - Rar!....                 - RAR   - .rar
-5A 57 53                                                                - ZWS                      - SWF   - .swf
-5F 27 A8 89                                                             - _'..                     - JAR   - .jar
-66 4C 61 43 00 00 00 22                                                 - fLaC..."                 - FLAC  - flac
-7E 74 2C 01                                                             - ~t,.                     - IMG   - .img
-89 50 4E 47 0D 0A 1A 0A                                                 - .PNG....                 - PNG   - .png
-CA FE BA BE                                                             - ....                     - CLASS - .class
-D0 CF 11 E0                                                             - ....                     - OLE   - .doc, .xls, .ppt
-ED AB EE DB                                                             - ....                     - RPM   - .rpm
-FF                                                                      - .                        - SYS   - .sys
-FF 4B 45 59 42 20 20 20                                                 - .KEYB                    - SYS   - .sys
-FF FF FF FF                                                             - ....                     - SYS   - .sys
-[4 bytes] 66 74 79 70 33 67 70 35                                       - [4 bytes]ftyp3gp5        - MP4   - .mp4
-[4 bytes] 66 74 79 70 4D 34 41 20                                       - [4 bytes]ftypM4A         - M4A   - .m4a
-[4 bytes] 66 74 79 70 4D 53 4E 56                                       - [4 bytes]ftypMSNV        - MP4   - .mp4
-[4 bytes] 66 74 79 70 69 73 6F 6D                                       - [4 bytes]ftypisom        - MP4   - .mp4
-[4 bytes] 66 74 79 70 6D 70 34 32                                       - [4 byte]sftypmp42        - M4A   - .m4a
-[4 bytes] 66 74 79 70 71 74 20 20                                       - [4 bytes]ftypqt          - MOV   - .mov
-[4 bytes] 6D 6F 6F 76                                                   - [4 bytes]moov            - MOV   - .mov
-[30 bytes] 50 4B 4C 49 54 45                                            - [30 bytes]PKLITE         - ZIP   - .zip
-[512 bytes] 00 6E 1E F0                                                 - [512 bytes].n..          - PPT   - .ppt
-[512 bytes] 09 08 10 00 00 06 05 00                                     - [512 bytes]........      - XLS   - .xls
-[512 bytes] 0F 00 E8 03                                                 - [512 bytes]....          - PPT   - .ppt
-[512 bytes] A0 46 1D F0                                                 - [512 bytes].F..          - PPT   - .ppt
-[512 bytes] EC A5 C1 00                                                 - [512 bytes]....          - DOC   - .doc
-[29152 bytes] 57 69 6E 5A 69 70                                         - [29152 bytes]WinZip      - ZIP   - .zip
+00 00 00 14 66 74 79 70 71 74 20 20                                     - ....ftypqt                 - MOV   - mov
+00 00 00 14 66 74 79 70 69 73 6F 6D                                     - ....ftypisom               - MP4   - mp4
+00 00 00 18 66 74 79 70 33 67 70 35                                     - ....ftyp3gp5               - MP4   - mp4
+00 00 00 1C 66 74 79 70 4D 53 4E 56 01 29 00 46 4D 53 4E 56 6D 70 34 32 - ....ftypMSNV.).FMSNVmp42   - MP4   - mp4
+00 00 01 00                                                             - ....                       - ICO   - ico
+00 00 01 BA                                                             - ....                       - MPG   - mpg, vob
+00 00 01 Bx                                                             - ....                       - MPG   - mpeg, mpg
+00 00 00 xx 66 74 79 70 33 67 70                                        - ....ftyp3gp                - 3GP   - 3gg,3gp,3g2
+00 00 00 xx 66 74 79 70 33 67 70 35                                     - ....ftyp3gp5               - MP4   - mp4
+1A 45 DF A3                                                             - .E..                       - WEBM  - webm
+1F 9D                                                                   - ..                         - TAR   - z, tar.z
+1F A0                                                                   - ..                         - TAR   - z, tar.z
+25 50 44 46                                                             - %PDF                       - PDF   - pdf
+37 7A BC AF 27 1C                                                       - 7z..'.                     - 7ZIP  - 7z
+42 4D                                                                   - BM                         - BMP   - bmp
+43 44 30 30 31                                                          - CD001                      - ISO   - iso
+43 57 53                                                                - CWS                        - SWF   - swf
+46 4C 56 01                                                             - FLV.                       - FLV   - flv
+46 57 53                                                                - FWS                        - SWF   - swf
+47 49 46 38 37 61                                                       - GIF87a                     - GIF   - gif
+47 49 46 38 39 61                                                       - GIF89a                     - GIF   - gif
+49 44 33                                                                - ID3                        - MP3   - mp3
+49 49 2A 00                                                             - II*.                       - TIFF  - tif, tiff
+4D 4D 00 2A                                                             - MM.*                       - TIFF  - tif, tiff
+4D 54 68 64                                                             - MThd                       - MIDI  - mid, midi
+4D 5A                                                                   - MZ                         - EXE   - exe
+4E 45 53 1A                                                             - NES.                       - NES   - nes
+4F 67 67 53                                                             - OggS                       - OGG   - ogg, oga, ogv
+50 4B 03 04                                                             - PK..                       - ZIP   - zip
+50 4B 03 04 14 00 06 00                                                 - PK......                   - OLE   - docx, pptx, xlsx
+50 4B 03 04 14 00 08 00 08 00                                           - PK........                 - JAR   - jar
+50 4B 03 04 0A 00 02 00                                                 - PK......                   - EPUB  - epub
+50 4D 4F 43 43 4D 4F 43                                                 - PMOCCMOC                   - DAT   - dat
+52 49 46 46 xx xx xx xx 41 56 49 20 4C 49 53 54                         - RIFF....AVI LIST           - AVI   - avi
+52 49 46 46 xx xx xx xx 57 41 56 45                                     - RIFF....WAVE               - WAV   - wav
+52 49 46 46 xx xx xx xx 57 41 56 45 66 6D 74 20                         - RIFF....WAVEfmt            - WAV   - wav
+52 61 72 21 1A 07 00                                                    - Rar!...                    - RAR   - rar
+52 61 72 21 1A 07 01 00                                                 - Rar!....                   - RAR   - rar
+5A 57 53                                                                - ZWS                        - SWF   - swf
+5F 27 A8 89                                                             - _'..                       - JAR   - jar
+66 4C 61 43                                                             - fLaC                       - FLAC  - flac
+66 4C 61 43 00 00 00 22                                                 - fLaC..."                   - FLAC  - flac
+75 73 74 61 72 00 30 30                                                 - ustar.00                   - TAR   - tar
+75 73 74 61 72 20 20 00                                                 - ustar  .                   - TAR   - tar
+7E 74 2C 01                                                             - ~t,.                       - IMG   - img
+89 50 4E 47 0D 0A 1A 0A                                                 - .PNG....                   - PNG   - png
+CA FE BA BE                                                             - ....                       - CLASS - class
+D0 CF 11 E0                                                             - ....                       - OLE   - doc, xls, ppt
+D0 CF 11 E0 A1 B1 1A E1                                                 - ........                   - OLE   - doc, xls, ppt
+ED AB EE DB                                                             - ....                       - RPM   - rpm
+FF                                                                      - .                          - SYS   - sys
+FF 4B 45 59 42 20 20 20                                                 - .KEYB                      - SYS   - sys
+FF D8 FF E0                                                             - ....                       - JPG   - jpg, jpeg
+FF D8 FF E0 xx xx 4A 46 49 46 00                                        - ......JFIF.                - JPG   - jfif, jpe, jpeg, jpg
+FF D8 FF E1 xx xx 45 78 69 66 00                                        - ......Exif.                - JPG   - jpg
+FF D8 FF E8 xx xx 53 50 49 46 46 00                                     - ......SPIFF.               - JPG   - jpg
+FF Ex                                                                   - ..                         - MP3   - mpeg, mpg, mp3
+FF FB                                                                   - ..                         - MP3   - mp3
+FF Fx                                                                   - ..                         - MP3   - mpeg, mpg, mp3
+FF FF FF FF                                                             - ....                       - SYS   - sys
+[4 bytes] 66 74 79 70 33 67 70 35                                       - [4 bytes]ftyp3gp5          - MP4   - mp4
+[4 bytes] 66 74 79 70 4D 34 41 20                                       - [4 bytes]ftypM4A           - M4A   - m4a
+[4 bytes] 66 74 79 70 4D 53 4E 56                                       - [4 bytes]ftypMSNV          - MP4   - mp4
+[4 bytes] 66 74 79 70 69 73 6F 6D                                       - [4 bytes]ftypisom          - MP4   - mp4
+[4 bytes] 66 74 79 70 6D 70 34 32                                       - [4 byte]sftypmp42          - M4A   - m4a
+[4 bytes] 66 74 79 70 71 74 20 20                                       - [4 bytes]ftypqt            - MOV   - mov
+[4 bytes] 6D 6F 6F 76                                                   - [4 bytes]moov              - MOV   - mov
+[30 bytes] 50 4B 4C 49 54 45                                            - [30 bytes]PKLITE           - ZIP   - zip
+[512 bytes] 00 6E 1E F0                                                 - [512 bytes].n..            - PPT   - ppt
+[512 bytes] 09 08 10 00 00 06 05 00                                     - [512 bytes]........        - XLS   - xls
+[512 bytes] 0F 00 E8 03                                                 - [512 bytes]....            - PPT   - ppt
+[512 bytes] A0 46 1D F0                                                 - [512 bytes].F..            - PPT   - ppt
+[512 bytes] EC A5 C1 00                                                 - [512 bytes]....            - DOC   - doc
+[512 byte] FD FF FF FF xx xx xx xx xx xx xx xx 04 00 00 00              - [512 byte]................ - DB    - db
+[29152 bytes] 57 69 6E 5A 69 70                                         - [29152 bytes]WinZip        - ZIP   - zip
 ```
 **note:** If you want to parse two magics with the same ident in a different way, you can change the pairs in the variable `magics` in `ffh.py`<br />
 **note:** As for now, the program cannot handle offsets or random bytes in the signature. This will be added in the future.
