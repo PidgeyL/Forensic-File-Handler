@@ -52,11 +52,18 @@ Magic                                                                   - ASCII 
 00 00 00 xx 66 74 79 70 33 67 70                                        - ....ftyp3gp                - 3GP   - 3gg,3gp,3g2
 00 00 00 xx 66 74 79 70 33 67 70 35                                     - ....ftyp3gp5               - MP4   - mp4
 1A 45 DF A3                                                             - .E..                       - WEBM  - webm
+1F 8B 08 00                                                             - ....                       - TAR   - tar
+1F 8B 08 08                                                             - ....                       - GZ    - gz
 1F 9D                                                                   - ..                         - TAR   - z, tar.z
+1F 9D 90 70                                                             - ....                       - TGZ   - tgz
 1F A0                                                                   - ..                         - TAR   - z, tar.z
 25 50 44 46                                                             - %PDF                       - PDF   - pdf
+30 26 B2 75                                                             - ....                       - WMV   - wmv
 37 7A BC AF 27 1C                                                       - 7z..'.                     - 7ZIP  - 7z
 42 4D                                                                   - BM                         - BMP   - bmp
+42 4D 62 25                                                             - BMp%                       - BMP   - bmp
+42 4D 76 03                                                             - BMv.                       - BMP   - bmp
+42 4D F8 A9                                                             - BM..                       - BMP   - bmp
 43 44 30 30 31                                                          - CD001                      - ISO   - iso
 43 57 53                                                                - CWS                        - SWF   - swf
 46 4C 56 01                                                             - FLV.                       - FLV   - flv
@@ -64,10 +71,14 @@ Magic                                                                   - ASCII 
 47 49 46 38 37 61                                                       - GIF87a                     - GIF   - gif
 47 49 46 38 39 61                                                       - GIF89a                     - GIF   - gif
 49 44 33                                                                - ID3                        - MP3   - mp3
+49 44 33 03                                                             - ID3.                       - MP3   - mp3
+49 44 33 2E                                                             - ID3.                       - MP3   - mp3
 49 49 2A 00                                                             - II*.                       - TIFF  - tif, tiff
 4D 4D 00 2A                                                             - MM.*                       - TIFF  - tif, tiff
 4D 54 68 64                                                             - MThd                       - MIDI  - mid, midi
 4D 5A                                                                   - MZ                         - EXE   - exe
+4D 5A 90 00                                                             - MZ..                       - DLL   - exe, dll
+4D 5A 50 00                                                             - MZP.                       - EXE   - exe
 4E 45 53 1A                                                             - NES.                       - NES   - nes
 4F 67 67 53                                                             - OggS                       - OGG   - ogg, oga, ogv
 50 4B 03 04                                                             - PK..                       - ZIP   - zip
